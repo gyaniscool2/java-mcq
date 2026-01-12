@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Technical Interview Quiz</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --code-bg: #2d2d2d;
+            --code-text: #ccc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        h1 { color: var(--primary-color); }
+        h2 { color: var(--accent-color); margin-top: 40px; border-left: 5px solid var(--accent-color); padding-left: 10px; }
+
+        .question-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .question-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .question-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: var(--primary-color);
+        }
+
+        .toggle-icon {
+            font-size: 1.2em;
+            color: var(--accent-color);
+            transition: transform 0.3s;
+        }
+
+        .answer-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fafafa;
+            border-top: 1px solid #eee;
+        }
+
+        .answer-content {
+            padding: 20px;
+        }
+
+        .answer-body.open {
+            max-height: 1000px; /* Arbitrary large height for transition */
+        }
+
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        /* Code Block Styling */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #d63384;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: var(--code-text);
+            padding: 0;
+        }
+
+        .keyword { color: #cc99cd; }
+        .type { color: #f08d49; }
+        .string { color: #7ec699; }
+        .comment { color: #999; font-style: italic; }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 10px;
+            color: white;
+        }
+        .badge-core { background-color: #27ae60; }
+        .badge-thread { background-color: #f39c12; }
+        .badge-code { background-color: #e74c3c; }
+        .badge-sys { background-color: #8e44ad; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>☕ Java Interview Prep Quiz</h1>
+    <p>Click on any question to reveal the answer.</p>
+</header>
+
+<h2>🟢 Core Java & Internals</h2>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-core">Q1</span> The HashMap Contract</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> When using a custom object as a Key, which two methods must be overridden?</p>
+            <hr>
+            <p><strong>Answer:</strong> <code>equals()</code> and <code>hashCode()</code>.</p>
+            <p><strong>The Rule:</strong> If two objects are equal according to <code>equals()</code>, they MUST have the same <code>hashCode()</code>.</p>
+            <p><em>Reason:</em> HashCode finds the bucket; Equals finds the object within the bucket.</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-core">Q2</span> Generics & Type Erasure</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> At runtime, does the JVM know the difference between <code>List&lt;String&gt;</code> and <code>List&lt;Integer&gt;</code>?</p>
+            <hr>
+            <p><strong>Answer:</strong> No.</p>
+            <p>This is called <strong>Type Erasure</strong>. The compiler removes specific type information to ensure backward compatibility. At runtime, both are just raw <code>ArrayList</code> objects.</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-core">Q3</span> String Internals</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> What is the output?</p>
+<pre>
+String s1 = "Java";
+String s2 = new String("Java");
+System.out.println(s1 == s2);
+</pre>
+            <hr>
+            <p><strong>Answer:</strong> <code>false</code></p>
+            <ul>
+                <li><code>s1</code> is in the String Pool.</li>
+                <li><code>s2</code> is a new object on the Heap (because of <code>new</code> keyword).</li>
+                <li><code>==</code> compares references, not content.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-core">Q4</span> Pass-by-Value</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> If you pass a StringBuilder to a method, modify it, then reassign it (<code>s = new...</code>), does the caller see the change?</p>
+            <hr>
+            <p><strong>Answer:</strong></p>
+            <ul>
+                <li><strong>Modification (.append):</strong> Yes. The caller sees the change.</li>
+                <li><strong>Reassignment (= new):</strong> No. The caller holds the original reference.</li>
+            </ul>
+            <p>Java is always <strong>Pass-by-Value</strong> (copies the reference).</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-core">Q5</span> Exception Handling</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> What happens if you throw an exception inside a <code>finally</code> block?</p>
+            <hr>
+            <p><strong>Answer:</strong> It causes <strong>Exception Swallowing</strong>. The original exception from the <code>try</code> block is lost/masked. Never do this.</p>
+        </div>
+    </div>
+</div>
+
+<h2>🟡 Concurrency</h2>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-thread">Q6</span> Race Conditions</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> Why is <code>count++</code> not thread-safe?</p>
+            <hr>
+            <p><strong>Answer:</strong> It is not atomic. It involves 3 steps: Read, Modify, Write.</p>
+            <p><strong>Fix:</strong> Use <code>AtomicInteger</code> (CAS) or <code>synchronized</code> blocks.</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-thread">Q7</span> Object Monitors</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> If Thread 1 is in <code>synchronized methodA()</code>, can Thread 2 enter <code>synchronized methodB()</code> on the same object?</p>
+            <hr>
+            <p><strong>Answer:</strong> <strong>No.</strong></p>
+            <p>Every object has only <strong>one</strong> monitor lock. Thread 1 holds it, so Thread 2 must wait.</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-thread">Q8</span> Singleton Pattern</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> Implement a thread-safe Singleton efficiently.</p>
+            <hr>
+            <p><strong>Answer:</strong> Double-Checked Locking with <code>volatile</code>.</p>
+<pre>
+<span class="keyword">public class</span> Singleton {
+    <span class="keyword">private static volatile</span> Singleton instance;
+
+    <span class="keyword">private</span> Singleton() {}
+
+    <span class="keyword">public static</span> Singleton getInstance() {
+        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) {
+            <span class="keyword">synchronized</span> (Singleton.class) {
+                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) {
+                    instance = <span class="keyword">new</span> Singleton();
+                }
+            }
+        }
+        <span class="keyword">return</span> instance;
+    }
+}
+</pre>
+        </div>
+    </div>
+</div>
+
+<h2>🔴 Collections & Streams</h2>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-code">Q9</span> Fail-Fast Iterators</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> What happens if you call <code>list.remove()</code> inside a for-each loop?</p>
+            <hr>
+            <p><strong>Answer:</strong> <code>ConcurrentModificationException</code>.</p>
+            <p>Iterators check <code>modCount</code>. If the list changes structurally without the iterator knowing, it fails fast.</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-code">Q10</span> Java 8 Interfaces</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> How can you add methods to an Interface without breaking implementation classes?</p>
+            <hr>
+            <p><strong>Answer:</strong> Use <code>default</code> methods.</p>
+        </div>
+    </div>
+</div>
+
+<h2>🔵 Coding Challenges</h2>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-code">C1</span> First Unique Character</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Task:</strong> Find the first non-repeating character in a string. Order matters.</p>
+            <hr>
+            <p><strong>Solution:</strong> Use <code>LinkedHashMap</code> to preserve order.</p>
+<pre>
+<span class="keyword">public</span> Character findFirst(String input) {
+    Map&lt;Character, Integer&gt; map = <span class="keyword">new</span> LinkedHashMap&lt;&gt;();
+    
+    <span class="comment">// 1. Count</span>
+    <span class="keyword">for</span> (<span class="keyword">char</span> c : input.toCharArray()) {
+        map.put(c, map.getOrDefault(c, 0) + 1);
+    }
+    
+    <span class="comment">// 2. Find</span>
+    <span class="keyword">for</span> (var entry : map.entrySet()) {
+        <span class="keyword">if</span> (entry.getValue() == 1) <span class="keyword">return</span> entry.getKey();
+    }
+    <span class="keyword">return null</span>;
+}
+</pre>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-code">C2</span> Single Number (XOR)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Task:</strong> Find the unique number in an array where all others appear twice. Constraint: O(1) Space.</p>
+            <hr>
+            <p><strong>Solution:</strong> Bitwise XOR.</p>
+<pre>
+<span class="keyword">public int</span> findSingle(<span class="keyword">int</span>[] nums) {
+    <span class="keyword">int</span> res = 0;
+    <span class="keyword">for</span> (<span class="keyword">int</span> n : nums) {
+        res ^= n;
+    }
+    <span class="keyword">return</span> res;
+}
+</pre>
+        </div>
+    </div>
+</div>
+
+<h2>🟣 JVM & System Design</h2>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-sys">Q11</span> GC & Circular References</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> Are circular references (A -> B -> A) eligible for GC if no one else refers to them?</p>
+            <hr>
+            <p><strong>Answer:</strong> <strong>Yes.</strong> Java uses Reachability Analysis (GC Roots), not reference counting. Isolated islands are collected.</p>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-sys">Q12</span> GC Generations</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> Where do objects live in the heap?</p>
+            <hr>
+            <ol>
+                <li><strong>Eden:</strong> New objects.</li>
+                <li><strong>Survivor (S0/S1):</strong> Objects that survive Minor GC.</li>
+                <li><strong>Old Gen:</strong> Objects that survive many cycles (Tenured).</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-sys">Q13</span> Spring Dependency Injection</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> Why prefer Constructor Injection over Field Injection?</p>
+            <hr>
+            <p><strong>Answer:</strong></p>
+            <ol>
+                <li><strong>Testability:</strong> Easy to mock without Spring context.</li>
+                <li><strong>Immutability:</strong> Can use <code>final</code> fields.</li>
+                <li><strong>Reliability:</strong> Ensures the bean is fully initialized.</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="question-card" onclick="toggleAnswer(this)">
+    <div class="question-header">
+        <span class="question-title"><span class="badge badge-sys">Q14</span> Database Indexing</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="answer-body">
+        <div class="answer-content">
+            <p><strong>Question:</strong> Why not index every column?</p>
+            <hr>
+            <p><strong>Answer:</strong> The <strong>Write Penalty</strong>. Every INSERT/UPDATE requires updating the table PLUS all indexes, slowing down writes significantly.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleAnswer(card) {
+        const body = card.querySelector('.answer-body');
+        const icon = card.querySelector('.toggle-icon');
+        
+        if (body.classList.contains('open')) {
+            body.classList.remove('open');
+            icon.classList.remove('open');
+        } else {
+            // Optional: Close others
+            // document.querySelectorAll('.answer-body').forEach(b => b.classList.remove('open'));
+            // document.querySelectorAll('.toggle-icon').forEach(i => i.classList.remove('open'));
+            
+            body.classList.add('open');
+            icon.classList.add('open');
+        }
+    }
+</script>
+
+</body>
+</html>
